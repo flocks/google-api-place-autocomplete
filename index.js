@@ -3,30 +3,39 @@
 var scriptjs = require( 'scriptjs' ),
 	promise = require( 'promise' );
 
+var callbacks = [];
+
+global.$$onClientLoad = function() {
+
+	for( var i = 0, len = callbacks.length; i < len; i++ ) {
+
+		doResolve.apply( undefined, callbacks[ i ] );
+	}
+};
+
+function doResolve( resolve, onComplete ) {
+
+	resolve( global.gapi );
+
+	if( onComplete )
+		onComplete( global.gapi );
+}
 
 module.exports = function( onComplete ) {
 
 	return new promise( function( resolve, reject ) {
 
-		if( window.gapi ) {
+		if( global.gapi ) {
 
 			doResolve( resolve, onComplete );
 		} else {
 
-			window.$$onClientLoad = function() {
+			callbacks.push( [ resolve, onComplete ] );
 
-				doResolve( resolve, onComplete );
-			};
+			if( callbacks.length == 1 ) {
 
-			scriptjs( 'http://maps.googleapis.com/maps/api/js?callback=$$onClientLoad' );
+				scriptjs( 'http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places&dummy=.j&callback=$$onClientLoad' );
+			}
 		}
 	});
 };
-
-function doResolve( resolve, onComplete ) {
-
-	resolve( window.gapi );
-
-	if( onComplete )
-		onComplete( window.gapi );
-}
