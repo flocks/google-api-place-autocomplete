@@ -34,7 +34,7 @@ module.exports = function( onComplete ) {
 
 			if( callbacks.length == 1 ) {
 
-				scriptjs( 'http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places&dummy=.j&callback=$$onClientLoad' );
+				scriptjs( 'https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places&dummy=.j&callback=$$onClientLoad' );
 			}
 		}
 	});
