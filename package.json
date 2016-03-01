@@ -1,6 +1,6 @@
 {
   "name": "google-api-place-autocomplete",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "get up and runnning google map autocomplete API quickly",
   "main": "index.js",
   "scripts": {
